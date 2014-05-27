@@ -19,22 +19,34 @@ class Mazo(object):
 	def __init__(self, paises_por_tarjeta):
 		"""Creacion desde un diccionario de paises segun tipo.
 		Debe inicializar el mazo con todas las tarjetas mezcladas."""
-		raise NotImplementedError()
+        	l = []
+        	for clave in paises_por_tarjeta:
+        		for elem in paises_por_tarjeta[clave]:
+                	l.append([clave,elem])
+        	self.pila = []
+        	self.descarte = []
+        	for x in range (len(l)):
+            		rand = random.randrange(len(l))
+            		self.pila.append(Tarjeta(l[rand][1],l[rand][0]))
 
 	def sacar_tarjeta(self):
 		"""Saca una tarjeta del mazo.
 		Si el mazo se acabara, debe mezclar y empezar a repartir desde
 		las tarjetas ya devueltas."""
-		raise NotImplementedError()
+		tarjeta = self.pila.pop()
+        	if self.pila == []:
+            		for x in range (len(self.descarte)):
+        			rand = random.randrange(len(self.descarte))
+                		self.pila.append(self.descarte[rand])
+        	return tarjeta
 
 	def devolver_tarjeta(self, tarjeta):
 		"""Recibe una tarjeta y la guarda en el pilon de tarjetas
 		devueltas. Cuando se acaben las tarjetas del mazo, se mezclaran
 		las ya devueltas."""
-		raise NotImplementedError()
+		self.descarte.append(tarjeta)
 
 	def cantidad_tarjetas(self):
 		"""Devuelve la cantidad *total* de tarjetas (tanto en el mazo
 		como devueltas)."""
-		raise NotImplementedError()
-
+		return len(self.descarte) + len(self.pila)
