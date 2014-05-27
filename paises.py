@@ -1,5 +1,5 @@
 # Este archivo define la configuracion de paises del TEG clasico.
-
+#esto es un comentario para subir a github
 from constantes import *
 
 # Continentes con todos sus paises:
