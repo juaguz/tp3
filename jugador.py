@@ -17,7 +17,7 @@ class Jugador(object):
 			Interfaz.setear_titulo('%s ataca. Seleccionar atacante' % self)
 
 			atacante, boton = Interfaz.seleccionar_pais()
-			while bobon == Interfaz.BOTON_IZQUIERDO and (tablero.color_pais(atacante) != self.color or tablero.ejercitos_pais(atacante) == 1):
+			while boton == Interfaz.BOTON_IZQUIERDO and (tablero.color_pais(atacante) != self.color or tablero.ejercitos_pais(atacante) == 1):
 				atacante, boton = Interfaz.seleccionar_pais()
 			if boton != Interfaz.BOTON_IZQUIERDO:
 				return None
