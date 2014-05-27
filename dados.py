@@ -1,12 +1,24 @@
 
 from constantes import *
+import random
+
+def obtener_dados(n):
+    """Devuelve una lista de n numeros aleatorios (entre 1 y 6) ordenados de mayor a menor"""
+    dados = []
+    for x in range(n):
+        dado = random.randrange(1,7)
+        dados.append(dado)
+    dados.sort()
+    dados.reverse()  
+    return dados
 
 class Dados(object):
 	"""Implementa la logica de tirar los dados."""
 
 	def __init__(self):
 		"""Inicializacion del objeto."""
-		raise NotImplementedError()
+		self.atacado_victorias = 0
+		self.atacante_victorias = 0
 
 	def __str__(self):
 		"""Representacion de la configuracion de dados de la ultima
@@ -31,15 +43,24 @@ class Dados(object):
 		atacado, el atacado pierde un ejercito. Si no, el atacante lo
 		pierde.
 		(Leer el reglamento del juego.)"""
-		raise NotImplementedError()
-
+		if ejercitos_atacante > 3:
+                	ejercitos_atacante = 3
+                if ejercitos_atacado > 3:
+                	ejercitos_atacado = 3
+                dados_atacante = obtener_dados(ejercitos_atacante)
+                dados_atacado = obtener_dados(ejercitos_atacado)
+                for x in xrange(min(ejercitos_atacante, ejercitos_atacado)):
+                	if dados_atacado[x] >= dados_atacante[x]:
+                		self.atacado_victorias +=1
+                	else:
+                		self.atacante_victorias +=1
 	def ejercitos_perdidos_atacante(self):
 		"""Devuelve la cantidad de ejercitos que perdio el atacante en
 		la ultima tirada de dados."""
-		raise NotImplementedError()
+		return self.atacado_victorias
 
 	def ejercitos_perdidos_atacado(self):
 		"""Devuelve la cantidad de ejercitos que perdio el atacado en
 		la ultima tirada de dados."""
-		raise NotImplementedError()
+		return self.atacante_victorias
 
