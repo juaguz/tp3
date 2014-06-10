@@ -33,7 +33,7 @@ class Jugador(object):
 			return (atacante, atacado)
 
 	def agregar_ejercitos(self, tablero, cantidad):
-		"""Recibe un tablero y un diccionario con la cantidad de paises
+		"""Recibe un tablerox y un diccionario con la cantidad de paises
 		a poner. Devuelve un diccionario con los paises que el usuario
 		selecciono.
 		Por ejemplo, si cantidad = {"": 2, "Africa": 3}, eso significa
