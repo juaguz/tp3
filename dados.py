@@ -3,14 +3,15 @@ from constantes import *
 import random
 
 def obtener_dados(n):
-    """Devuelve una lista de n numeros aleatorios (entre 1 y 6) ordenados de mayor a menor"""
-    dados = []
-    for x in range(n):
-        dado = random.randrange(1,7)
-        dados.append(dado)
-    dados.sort()
-    dados.reverse()  
-    return dados
+	"""Devuelve una lista de n numeros aleatorios (entre 1 y 6) ordenados de mayor a menor"""
+	dados = [random.randrange(1,7)]
+	for x in range(n - 1):
+		dado = random.randrange(1,7)
+		if dado > dados[0]:
+			dados.insert(0, dado)
+		else:
+			dados.append(dado)
+	return dados	
 
 class Dados(object):
 	"""Implementa la logica de tirar los dados."""
@@ -19,6 +20,8 @@ class Dados(object):
 		"""Inicializacion del objeto."""
 		self.atacado_victorias = 0
 		self.atacante_victorias = 0
+		self.dados_atacante = []
+		self.dados_atacado = []		
 
 	def __str__(self):
 		"""Representacion de la configuracion de dados de la ultima
@@ -47,10 +50,12 @@ class Dados(object):
                 	ejercitos_atacante = 3
                 if ejercitos_atacado > 3:
                 	ejercitos_atacado = 3
-                dados_atacante = obtener_dados(ejercitos_atacante)
-                dados_atacado = obtener_dados(ejercitos_atacado)
+                self.atacado_victorias = 0
+                self.atacante_victorias = 0
+                self.dados_atacante = obtener_dados(ejercitos_atacante)
+                self.dados_atacado = obtener_dados(ejercitos_atacado)
                 for x in xrange(min(ejercitos_atacante, ejercitos_atacado)):
-                	if dados_atacado[x] >= dados_atacante[x]:
+                	if self.dados_atacado[x] >= self.dados_atacante[x]:
                 		self.atacado_victorias +=1
                 	else:
                 		self.atacante_victorias +=1
