@@ -8,9 +8,9 @@ class Jugador(object):
 
     def __init__(self, color, nombre):
         """Crea un jugador desde un color y un nombre."""
-        self.color = color
-        self.nombre = nombre
-
+        self.color    = color
+        self.nombre   = nombre
+        self.tarjetas = []
 
     def atacar(self, tablero):
         """Le pide al usuario que ingrese un par de paises para
@@ -49,12 +49,8 @@ class Jugador(object):
         #return {"Zaire": 4, "Italia": 1}
         self.ejercitos_paises = {}
 
-        paises = dar_paises()
-        ejercitos_paises = {}
-        opciones_paises = []
-        for pais in paises:
-            if tablero.color_pais(pais) == self.color:
-               opciones_paises.append(pais)
+        opciones_paises = tablero.paises_color(self.color)#tomo los paises que tiene el color del jugador
+
         for key in cantidad:
             opciones_paises_aux = []
             for i in range(0,cantidad[key]):
@@ -67,15 +63,6 @@ class Jugador(object):
                     self.sumar_ejercito(opciones_paises_aux)
 
         return  self.ejercitos_paises
-
-
-
-
-
-
-
-
-
 
 
     def sumar_ejercito(self,opciones_paises):
@@ -103,13 +90,13 @@ class Jugador(object):
         reagrupamiento, Brasil quedara con 1 ejercito mas, Uruguay con
         2 mas, Argentina con 2 menos (salen 3, entra 1) y Chile con 1
         menos."""
-        paises                  = dar_paises()
+        paises                  = tablero.paises_color(self.color)
         opciones_paises         = []
         opciones_paises_destino = []
         lista_reagrupamientos   = []
 
         for pais in paises:
-            if (tablero.paises[pais][0] == self.color) and (tablero.paises[pais][1] > 1):
+            if  (tablero.paises[pais][1] > 1):
                 opciones_paises.append(pais)
 
         pais_origen        = Interfaz.elegir('Reagrupar Ejercitos','Seleccione el pais de origen',opciones_paises)

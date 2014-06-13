@@ -121,10 +121,10 @@ class TEG(object):
                     self.tablero.asignar_ejercitos(atacante, -mover)
                     self.tablero.ocupar_pais(atacado, jugador.color, mover)
 
-                    self.tablero.actualizar_interfaz()
+                    self.tablero.actualizar_interfaz(self.tablero.paises)
                 else:
-                    self.tablero.actualizar_interfaz()
-                    time.sleep(1)
+                    self.tablero.actualizar_interfaz(self.tablero.paises)
+                    time.sleep(5)
 
             return paises_ganados
 
@@ -198,10 +198,10 @@ class TEG(object):
     def jugador_esta_vivo(self, jugador):
         """Verifica si un jugador sigue en carrera.
         Un jugador muere cuando se queda sin paises."""
-        for key in self.tablero.paises:
-            if self.tablero.paises[key][0] == jugador.color:
-                return True
-        return False
+        if len(self.tablero.paises_color(jugador.color)) == 0:
+            return False
+
+        return True
 
 
     def jugar(self):

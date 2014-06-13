@@ -21,12 +21,13 @@ class Mazo(object):
         """Creacion desde un diccionario de paises segun tipo.
         Debe inicializar el mazo con todas las tarjetas mezcladas."""
         self.pila = []
+        self.descarte = []
         for clave in paises_por_tarjeta:
             for elem in paises_por_tarjeta[clave]:
                     tarjeta = Tarjeta(elem, clave)
                     self.pila.append(tarjeta)
         random.shuffle(self.pila)
-        self.descarte = []
+
                     
     def sacar_tarjeta(self):
         """Saca una tarjeta del mazo.
