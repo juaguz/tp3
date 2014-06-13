@@ -8,9 +8,11 @@ class Jugador(object):
 
     def __init__(self, color, nombre):
         """Crea un jugador desde un color y un nombre."""
-        self.color    = color
-        self.nombre   = nombre
-        self.tarjetas = []
+        self.color                = color
+        self.nombre               = nombre
+        self.tarjetas             = []
+        self.tarjetas_canjeadas   = {}
+
 
     def atacar(self, tablero):
         """Le pide al usuario que ingrese un par de paises para

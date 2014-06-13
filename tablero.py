@@ -88,7 +88,7 @@ class Tablero(object):
     def paises_color(self, color):
         """Devuelve la lista de paises con ejercitos del color."""
         lista_color  = []
-        for pais in self.paises:
-            if pais[0] == color:
-                lista_color.append(pais)
+        for key in self.paises:
+            if self.paises[key][0] == color:
+                lista_color.append(key)
         return lista_color

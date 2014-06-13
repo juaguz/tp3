@@ -48,6 +48,7 @@ class TEG(object):
             c = NOMBRE_COLORES.keys()[NOMBRE_COLORES.values().index(color)]
             self.jugadores.append(Jugador(c, nombre))
 
+
     def repartir_paises(self):
         """Reparte en ronda las tarjetas de paises y pone un ejercito
         en cada uno de los paises."""
@@ -63,6 +64,7 @@ class TEG(object):
             t = self.mazo.sacar_tarjeta()
             self.tablero.ocupar_pais(t.pais, jugador.color, 1)
             self.mazo.devolver_tarjeta(t)
+            #print(type(jugador))
 
     def agregar_ejercitos_inicial(self, inicia_ronda):
         """Realiza la primer fase de colocacion de ejercitos."""
@@ -89,44 +91,43 @@ class TEG(object):
 
 
     def realizar_fase_ataque(self, jugador):
-            """Implementa la fase de ataque de un jugador.
-            Sucesivamente hace combatir a los paises seleccionados.
-            Devuelve el numero de paises conquistados."""
+        """Implementa la fase de ataque de un jugador.
+        Sucesivamente hace combatir a los paises seleccionados.
+        Devuelve el numero de paises conquistados."""
 
-            Interfaz.setear_titulo('%s ataca' % jugador)
-            Interfaz.alertar(jugador, '%s ataca' % jugador)
+        Interfaz.setear_titulo('%s ataca' % jugador)
+        Interfaz.alertar(jugador, '%s ataca' % jugador)
 
-            paises_ganados = 0
-            while True:
-                ataque = jugador.atacar(self.tablero)
-                if not ataque:
-                    break
-                atacante, atacado = ataque
+        paises_ganados = 0
+        while True:
+            ataque = jugador.atacar(self.tablero)
+            if not ataque:
+                break
+            atacante, atacado = ataque
 
-                assert (self.tablero.es_limitrofe(atacante, atacado))
-                assert (self.tablero.ejercitos_pais(atacante) > 1)
+            assert (self.tablero.es_limitrofe(atacante, atacado))
+            assert (self.tablero.ejercitos_pais(atacante) > 1)
 
-                self.dados.lanzar_dados(self.tablero.ejercitos_pais(atacante), self.tablero.ejercitos_pais(atacado))
-                self.tablero.asignar_ejercitos(atacante, -self.dados.ejercitos_perdidos_atacante())
-                self.tablero.asignar_ejercitos(atacado, -self.dados.ejercitos_perdidos_atacado())
+            self.dados.lanzar_dados(self.tablero.ejercitos_pais(atacante), self.tablero.ejercitos_pais(atacado))
+            self.tablero.asignar_ejercitos(atacante, -self.dados.ejercitos_perdidos_atacante())
+            self.tablero.asignar_ejercitos(atacado, -self.dados.ejercitos_perdidos_atacado())
 
-                Interfaz.setear_titulo('%s: -%d, %s: -%d %s' % (
+            Interfaz.setear_titulo('%s: -%d, %s: -%d %s' % (
                 atacante, self.dados.ejercitos_perdidos_atacante(), atacado, self.dados.ejercitos_perdidos_atacado(),
                 self.dados))
 
-                if self.tablero.ejercitos_pais(atacado) == 0:
-                    paises_ganados += 1
-                    mover = Interfaz.elegir(jugador, 'Cuantos ejercitos se desplazan a %s?' % atacado,
-                                            range(1, min(self.tablero.ejercitos_pais(atacante) - 1, 3) + 1))
-                    self.tablero.asignar_ejercitos(atacante, -mover)
-                    self.tablero.ocupar_pais(atacado, jugador.color, mover)
+            if self.tablero.ejercitos_pais(atacado) == 0:
+                paises_ganados += 1
+            mover = Interfaz.elegir(jugador, 'Cuantos ejercitos se desplazan a %s?' % atacado,
+                                    range(1, min(self.tablero.ejercitos_pais(atacante) - 1, 3) + 1))
+            self.tablero.asignar_ejercitos(atacante, -mover)
+            self.tablero.ocupar_pais(atacado, jugador.color, mover)
 
-                    self.tablero.actualizar_interfaz(self.tablero.paises)
-                else:
-                    self.tablero.actualizar_interfaz(self.tablero.paises)
-                    time.sleep(5)
-
-            return paises_ganados
+            self.tablero.actualizar_interfaz(self.tablero.paises)
+        else:
+            self.tablero.actualizar_interfaz(self.tablero.paises)
+            time.sleep(5)
+        return paises_ganados
 
 
     def realizar_fase_reagrupamiento(self, jugador):
@@ -155,6 +156,7 @@ class TEG(object):
             self.tablero.asignar_ejercitos(destino, cantidad)
 
 
+
     def manejar_tarjetas(self, jugador, paises_ganados):
         """
         Realiza la fase de obtencion de tarjetas de pais.
@@ -166,7 +168,24 @@ class TEG(object):
         3) Si recibio tarjeta de pais y posee ese pais, recibe 2
         ejercitos adicionales en el mismo.
         """
-        raise NotImplementedError()
+        #raise NotImplementedError()
+        paises_jugador       = self.tablero.paises_color(jugador.color)
+        lista_paises_ganados = []
+
+        for pais in reversed(range(paises_ganados)):
+            lista_paises_ganados.append(pais)
+
+        for pais in lista_paises_ganados:
+           if not pais in jugador.tarjetas_canjeadas:
+               self.tablero.asignar_ejercitos(pais,2)
+        if(len(jugador.tarjetas_canjeadas)<3 and paises_ganados>=1):
+            t = self.mazo.sacar_tarjeta()
+            jugador.tarjetas[t[0]] = t[1]
+        elif (len(jugador.tarjetas_canjeadas)>3 and paises_ganados>=2):
+            t = self.mazo.sacar_tarjeta()
+            jugador.tarjetas[t[0]] = t[1]
+        if t[0] in paises_jugador:
+            self.tablero.asignar_ejercitos(t[0],2)
 
 
     def agregar_ejercitos(self, inicia_ronda):
@@ -184,6 +203,7 @@ class TEG(object):
         3) Si el jugador poseyera continentes completos agregara el
         adicional que indica ejercitos_por_continente obligatoriamente
         en dicho continente."""
+
         raise NotImplementedError()
 
 
