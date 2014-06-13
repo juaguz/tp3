@@ -26,7 +26,7 @@ class Dados(object):
 	def __str__(self):
 		"""Representacion de la configuracion de dados de la ultima
 		tirada."""
-		raise NotImplementedError()
+		return '(%s) Ejercitos que perdio el atacante |(%s) Ejercitos que perdio el atacante' % (self.atacante_victorias,self.atacado_victorias )
 
 	def lanzar_dados(self, ejercitos_atacante, ejercitos_atacado):
 		"""Recibe la cantidad de ejercitos presentes en el pais
@@ -54,7 +54,7 @@ class Dados(object):
                 self.atacante_victorias = 0
                 self.dados_atacante = obtener_dados(ejercitos_atacante)
                 self.dados_atacado = obtener_dados(ejercitos_atacado)
-                for x in xrange(min(ejercitos_atacante, ejercitos_atacado)):
+                for x in range(min(ejercitos_atacante, ejercitos_atacado)):
                 	if self.dados_atacado[x] >= self.dados_atacante[x]:
                 		self.atacado_victorias +=1
                 	else:
