@@ -1,5 +1,5 @@
 from constantes import *
-
+import random
 
 class Tarjeta(object):
     """Implementacion de una tarjeta de pais."""

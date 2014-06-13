@@ -14,6 +14,17 @@ paises_por_continente = {
     'Oceania': ['Australia', 'Borneo', 'Java', 'Sumatra'],
 }
 
+
+def dar_paises():
+    paises_lista = []
+    for key in paises_por_continente:
+        paises = paises_por_continente[key]
+        for pais in paises:
+            paises_lista.append(pais)
+    return paises_lista
+
+
+
 # Cantidad de ejercitos que pone un jugador si conquista el continente
 ejercitos_por_continente = {
     'Africa': 3,
